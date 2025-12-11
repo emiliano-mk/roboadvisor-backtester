@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Contenedor principal -->
+<div class="min-h-screen bg-gray-900 text-gray-200 py-10 px-4">
+
+    <!-- Título -->
+    <h1 class="text-4xl font-bold text-center mb-10 text-blue-400">
+        Backtester de Estrategias
+    </h1>
+
+    <!-- Tarjeta de formulario -->
+    <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
+
+        <h2 class="text-xl font-semibold mb-4">Configurar Backtest</h2>
+
+        <form action="/backtest" method="POST" class="space-y-4">
+
+            <!-- Ticker -->
+            <div>
+                <label class="block mb-1 text-sm font-medium">Ticker</label>
+                <input type="text" name="ticker" placeholder="AAPL, BTC-USD, MSFT..."
+                       class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 outline-none">
+            </div>
+
+            <!-- Estrategia -->
+            <div>
+                <label class="block mb-1 text-sm font-medium">Estrategia</label>
+                <select name="strategy"
+                        class="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 outline-none">
+                    {% for key in strategies %}
+                        <option value="{{ key }}">{{ key|capitalize }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Botón -->
+            <button type="submit"
+                class="w-full py-3 bg-blue-600 hover:bg-blue-700 transition rounded-lg font-semibold shadow-lg">
+                Ejecutar Backtest
+            </button>
+        </form>
+    </div>
+
+    <!-- Resultados -->
+    {% if results %}
+    <div class="max-w-6xl mx-auto mt-12">
+
+        <!-- Encabezado -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-green-400">Resultados del Backtest</h2>
+            <p class="text-sm text-gray-400 mt-1">
+                Ticker: <span class="font-semibold text-gray-200">{{ results.ticker }}</span> —
+                Estrategia: <span class="font-semibold text-gray-200">{{ results.strategy }}</span>
+            </p>
+        </div>
+
+        <!-- Métricas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {% for key, value in results.metrics.items() %}
+            <div class="bg-gray-800 p-5 rounded-xl shadow border border-gray-700">
+                <h3 class="text-lg font-semibold text-blue-300">{{ key }}</h3>
+                <p class="text-2xl font-bold mt-2">{{ "%.2f"|format(value) }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Gráficas -->
+        {% if plots %}
+        <h2 class="text-xl font-bold mt-4">Evolución del Capital</h2>
+        <div class="my-4">{{ plots.capital | safe }}</div>
+
+        <h2 class="text-xl font-bold mt-4">Retornos Diarios</h2>
+        <div class="my-4">{{ plots.returns | safe }}</div>
+
+        <h2 class="text-xl font-bold mt-4">Señales de Trading</h2>
+        <div class="my-4">{{ plots.signals | safe }}</div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    body {
+        color: #e6e6e6;
+        font-family: Arial, sans-serif;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #0f1a2b; /* azul muy oscuro */
+        color: #e6e6e6;
+    }
+
+    thead th {
+        background-color: #1a2d47; /* tono azul oscuro elegante */
+        padding: 14px 18px;
+        text-align: center;
+        border-bottom: 2px solid #2f4a6b;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    tbody td {
+        padding: 12px 18px;
+        border-bottom: 1px solid #1d304a;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    tbody tr:hover td {
+        background-color: #1b2e4a; /* hover azul más claro */
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #ffffff;
+    }
+</style>
+
+<h2>Historial de Transacciones</h2>
+
+<div class="table-container">
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ticker</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Notas</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.ticker }}</td>
+            <td>{{ "%.4f"|format(t.quantity) }}</td>
+            <td>${{ "%.2f"|format(t.price) }}</td>
+            <td>
+                {% if t.tx_type == "BUY" %}
+                    <span style="color:#6ef76e; font-weight:bold;">BUY</span>
+                {% else %}
+                    <span style="color:#ff6b6b; font-weight:bold;">SELL</span>
+                {% endif %}
+            </td>
+            <td>{{ t.date }}</td>
+            <td>{{ t.notes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+{% endblock %}

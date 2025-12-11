@@ -1,4 +1,6 @@
 pandas
 numpy
-yfinance
 matplotlib
+yfinance
+scipy
+ta
