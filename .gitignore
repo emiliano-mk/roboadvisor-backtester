@@ -1,9 +1,47 @@
-# Entorno virtual
-.venv/
+# ===============================
+# PYTHON / FLASK PROJECT IGNORE
+# ===============================
+
+# Byte-compiled files
 __pycache__/
 *.pyc
-*.log
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.venv/
+.env/
+ENV/
+
+# VSCode settings
+.vscode/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# SQLite database (keep it local)
+*.db
+
+# Caches
+cache/
+*.cache
+*.tmp
+
+# Flask instance folder
+instance/
+
+# Logs
+*.log
+
+# Jupyter notebooks checkpoints
 .ipynb_checkpoints/
-app/data/*
-app/reports/*
+
+# Dist / build
+dist/
+build/
+
+# Data downloads (if any)
+data/downloads/
+
